@@ -11,6 +11,16 @@ const items: MenuItemType[] = [
     group: true,
   },
   {
+    title: 'test',
+    icon: { name: 'folder' },
+    children: [
+      {
+        title: 'SSR Test',
+        link: { href: '/test/ssr-test' },
+      },
+    ],
+  },
+  {
     title: 'Extra Components',
     icon: { name: 'star-outline' },
     children: [
