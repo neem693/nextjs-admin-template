@@ -18,6 +18,14 @@ const items: MenuItemType[] = [
         title: 'SSR Test',
         link: { href: '/test/ssr-test' },
       },
+      {
+        title: 'Query Test',
+        link: { href: '/test/query-test' },
+      },
+      {
+        title: 'Swr Test',
+        link: { href: '/test/swr-test' },
+      },
     ],
   },
   {

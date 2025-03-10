@@ -5,17 +5,20 @@ import Col from '@paljs/ui/Col';
 import React from 'react';
 import Link from 'next/link';
 import Layout from 'Layouts';
+import { useQuery } from '@tanstack/react-query';
+import { fetchTodo } from 'redux/react-query/lib/testApi';
+import { Button } from '@paljs/ui';
 
-// 서버에서 데이터 가져와 props로 전달
-export async function getServerSideProps() {
-  const res: Response = await fetch('https://dummyjson.com/todos');
-  const post = await res.json();
-  return {
-    props: { post }, // Home 컴포넌트의 props로 전달
-  };
-}
-
-const SSRTest = ({ post }) => {
+const QueryTest = () => {
+  const {
+    data: todos,
+    isLoading: isTodosLoadig,
+    error: todosError,
+    refetch: todosRefetch,
+  } = useQuery({
+    queryKey: ['testTodo'],
+    queryFn: fetchTodo,
+  });
   const items: ActionType[] = [
     {
       icon: 'home',
@@ -81,9 +84,15 @@ const SSRTest = ({ post }) => {
           </Card>
         </Col>
       </Row>
-      <Row>{JSON.stringify(post)}</Row>
-      {/* <Bu */}
+      <Row>{JSON.stringify(todos)} </Row>
+      <Button
+        onClick={() => {
+          todosRefetch();
+        }}
+      >
+        refresh
+      </Button>
     </Layout>
   );
 };
-export default SSRTest;
+export default QueryTest;

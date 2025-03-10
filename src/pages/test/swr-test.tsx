@@ -5,17 +5,12 @@ import Col from '@paljs/ui/Col';
 import React from 'react';
 import Link from 'next/link';
 import Layout from 'Layouts';
+import { fetchTodo } from 'redux/react-query/lib/testApi';
+import useSWR, { mutate } from 'swr';
+import { Button } from '@paljs/ui';
 
-// 서버에서 데이터 가져와 props로 전달
-export async function getServerSideProps() {
-  const res: Response = await fetch('https://dummyjson.com/todos');
-  const post = await res.json();
-  return {
-    props: { post }, // Home 컴포넌트의 props로 전달
-  };
-}
-
-const SSRTest = ({ post }) => {
+const SwrTest = () => {
+  const { data: todos, error: todosError } = useSWR('testTodo', fetchTodo);
   const items: ActionType[] = [
     {
       icon: 'home',
@@ -81,9 +76,15 @@ const SSRTest = ({ post }) => {
           </Card>
         </Col>
       </Row>
-      <Row>{JSON.stringify(post)}</Row>
-      {/* <Bu */}
+      <Row>{JSON.stringify(todos)} </Row>
+      <Button
+        onClick={() => {
+          mutate('testTodo');
+        }}
+      >
+        refresh
+      </Button>
     </Layout>
   );
 };
-export default SSRTest;
+export default SwrTest;
